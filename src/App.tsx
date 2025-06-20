@@ -21,7 +21,7 @@ function App() {
   };
 
   const Button = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
-    <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={onClick}>
+    <button className='bg-blue-500text-gray-100 px-4 py-2 rounded' onClick={onClick}>
       {children}
     </button>
   );
@@ -109,55 +109,54 @@ function App() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col">
-        <header className="flex items-center justify-between p-8 border-b bg-spindle-300">
-          <div className="logo">Task Travailing Tasker</div>
-          <div className="flex-none w-1/2 px-4">
-            {/* Search bar will be placed here */} Searchingggg!!!
-          </div>
+    {/** background */}
+    <div className="bg-[#1B1D3C]/90 min-h-screen flex items-center justify-center font-sans bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('./background.jpg')" }}>
 
-          <div className="w-12"></div>
+      {/** glass */}
+      <div className='glass max-w-6xl w-full mx-4 rounded-2xl shadow-lgtext-gray-100 p-8 space-y-16'>
 
-          
+        <header className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-white/80 drop-shadow">Task Travailing Tasker</h1>
+          <input type="text" placeholder="Search tasks..." className="bg-white/20text-gray-100 placeholder-white px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 w-1/2" />
         </header>
-        
-        <div className="flex flex-1">
-          <aside className="w-64 bg-gray-100 p-4 border-r">
-            {/* Sidebar goes here */} Sidebar
+
+        <div className="flex flex-col md:flex-row gap-4 ">
+          <aside className="w-full md:w-1/4 bg-white/10 p-4 rounded-xl">
+            <p className="text-lg font-medium">Filters</p>
+            <div className="flex flex-col gap-2 mt-2">
+              <button onClick={() => filterTasks("todo")} className='bg-white/20 hover:bg-white/30text-gray-100 font-semibold px-5 py-2 rounded-xl transition duration-150 shadow hover:shadow-md text-sm md:text-base whitespace-nowrap'>To Do</button>
+              <button onClick={() => filterTasks("in progress")} className='bg-white/20 hover:bg-white/30text-gray-100 font-semibold px-5 py-2 rounded-xl transition duration-150 shadow hover:shadow-md text-sm md:text-base whitespace-nowrap'>In Progress</button>
+              <button onClick={() => filterTasks("completed")} className='bg-white/20 hover:bg-white/30text-gray-100 font-semibold px-5 py-2 rounded-xl transition duration-150 shadow hover:shadow-md text-sm md:text-base whitespace-nowrap'>Completed</button>
+            </div>
           </aside>
 
-          {tasks.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 mb-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+          <main className="flex-1 bg-white/10 p-4 rounded-xl space-y-4">
+            <div className="flex gap-2">
+              <input type="text" placeholder='New task title...' value={newTitle} onChange={(e) => setNewTitle(e.target.value)} className="flex-1 px-4 py-2 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-white/50"/>
+              <button onClick={handleAddTask} className='bg-white/20 hover:bg-white/30text-gray-100 font-semibold px-5 py-2 rounded-xl transition duration-150 shadow hover:shadow-md text-sm md:text-base whitespace-nowrap'>Add</button>
             </div>
-          ) : (
-            <main className="flex-1 p-6 overflow-auto bg-white">
-              Here goes the main section
-            </main>
-          )
-        }
-          
+
+            <ul className="space-y-2">
+              {tasks.map((task) => (
+                <li key={task.id} className={`p-4 rounded-xl flex justify-between items-center bg-white/20 ${task.completed ? 'line-through opacity-60' : ''}`}>
+                  <span>{task.title}</span>
+                  <div className='flex gap-2'>
+                    <button onClick={() => toggleCompletion(task.id)} className="bg-white/20 hover:bg-white/30text-gray-100 font-semibold px-5 py-2 rounded-xl transition duration-150 shadow hover:shadow-md text-sm md:text-base whitespace-nowrap">{task.completed ? 'Undo' : 'Complete'}</button>
+                    <button onClick={() => deleteTask(task.id)} className='bg-white/20 hover:bg-white/30text-gray-100 font-semibold px-5 py-2 rounded-xl transition duration-150 shadow hover:shadow-md text-sm md:text-base whitespace-nowrap'>Delete</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </main>
         </div>
-
-        
-
-
-        <footer></footer>
-
       </div>
+
+      <footer className="fixed bottom-2 right-2 text-xstext-gray-100/70 backdrop-blur-md bg-white/10 px-3 py-1 rounded-xl shadow-sm z-50">
+        Photo by <a href="https://unsplash.com/@neom?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">NEOM</a> on <a href="https://unsplash.com/photos/an-aerial-view-of-a-desert-with-rocks-and-sand-Iy59i0M7oP4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+  
+      </footer>
+
+    </div>
     </>
   )
 }
